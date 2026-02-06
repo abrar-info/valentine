@@ -5,6 +5,10 @@
 <title>Valentine 💖</title>
 
 <style>
+    * {
+        box-sizing: border-box;
+    }
+
     body {
         margin: 0;
         height: 100vh;
@@ -13,7 +17,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-family: 'Arial', sans-serif;
+        font-family: Arial, sans-serif;
         overflow: hidden;
         text-align: center;
     }
@@ -21,44 +25,53 @@
     h1 {
         font-size: 48px;
         font-weight: bold;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     .buttons {
+        display: flex;
+        gap: 20px;
         position: relative;
+        z-index: 2;
     }
 
     button {
-        font-size: 20px;
-        padding: 15px 30px;
-        margin: 10px;
+        font-size: 22px;
+        padding: 15px 35px;
         border: none;
         border-radius: 8px;
         cursor: pointer;
     }
 
     #yesBtn {
-        background-color: #2ecc71;
+        background: #2ecc71;
         color: white;
     }
 
     #noBtn {
-        background-color: #e74c3c;
+        background: #e74c3c;
         color: white;
-        position: absolute;
+    }
+
+    #warning {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #c0392b;
     }
 
     /* Popup */
     #popup {
-        display: none;
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.6);
-        color: white;
-        font-size: 28px;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
         align-items: center;
         justify-content: center;
         z-index: 10;
+        color: white;
+        font-size: 28px;
+        padding: 20px;
     }
 
     /* Petals */
@@ -74,13 +87,6 @@
         to {
             transform: translateY(110vh) rotate(360deg);
         }
-    }
-
-    #warning {
-        margin-top: 20px;
-        font-size: 20px;
-        color: #c0392b;
-        font-weight: bold;
     }
 </style>
 </head>
@@ -98,7 +104,7 @@
 
 <div id="popup">
     <div>
-        💖💐<br>
+        💐💖<br><br>
         I love you so much baby,<br>
         I will love you forever ever and ever....
     </div>
@@ -112,21 +118,26 @@
 
     let noClicks = 0;
 
-    noBtn.style.left = "120px";
-
-    noBtn.addEventListener("click", () => {
+    function moveNoButton() {
         noClicks++;
 
-        const x = Math.random() * (window.innerWidth - 150);
-        const y = Math.random() * (window.innerHeight - 150);
+        const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+        const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.position = "fixed";
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
 
         if (noClicks >= 4) {
             warning.textContent = "Press yes or I will bite you, honey.";
         }
-    });
+    }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
 
     yesBtn.addEventListener("click", () => {
         popup.style.display = "flex";
